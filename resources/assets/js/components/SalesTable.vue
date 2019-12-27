@@ -14,7 +14,7 @@
         <tbody>
           <tr v-for="sale in sales">
             <td>{{sale.sale_product.name}}</td>
-            <td>{{sale.sale_date}}</td>
+            <td>{{sale.sale_date | dateBr}}</td>
             <td>{{sale.sale_price_final}}</td>
             <td>
               <btn>
@@ -29,7 +29,15 @@
   </div>
 </template>
 <script>
+import moment from 'moment'
 export default {
+  filters: {
+    dateBr(value) {
+      return moment(value)
+        .locale("pt-br")
+        .format("L");
+    }
+  },
   props: {
     sales: {
       type: Array,

@@ -17,5 +17,5 @@ Route::get('/costumers', 'CostumerController@index');
 
 Route::resource('/products', 'ProductController', ['only' => ['update']]);
 Route::resource('/costumers/{costumer_id}/sales', 'CostumerSalesController', ['only' => ['index','update']]);
-Route::get('/costumers/{costumer_id}/sales-results', 'CostumerController@results');
+Route::get('/costumers/{costumer_id}/sales-results', 'CostumerSalesController@results');
 

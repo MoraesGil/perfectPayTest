@@ -12,15 +12,15 @@
       </div>
     </div>
 
-    <div class="row top10" v-if="showSales">
+    <div class="row top10" v-if="showSales || true">
       <div class="col-md-12">
         <sales-table :sales="sales" />
       </div>
     </div>
 
-    <div class="row top10" v-if="showResults">
+    <div class="row top10" v-if="showResults || true">
       <div class="col-md-12">
-        <sales-result-table :sales="results" />
+        <sales-result-table :results="results" />
       </div>
     </div>
   </div>
@@ -55,7 +55,7 @@ export default {
       return this.sales.length > 0;
     },
     showResults() {
-      return this.sales.length > 0;
+      return this.results.length > 0;
     }
   },
   methods: {
