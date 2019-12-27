@@ -1,26 +1,26 @@
 <template>
   <div class="container" id="main">
     <div class="row">
-      <costumer-picker class="col-md-5"></costumer-picker>
+      <costumer-picker class="col-md-5" @selected="val => selectedCostumer = val" />
       <div class="col-md-5">
         <range-picker @range="(range) => rangePicker = range" />
       </div>
       <div class="col-md-1 pull-right">
-        <btn class="form-control ">
+        <btn @click="fetchAll" class="form-control" :disabled="!canFetch">
           <i class="fa fa-search"></i>
         </btn>
       </div>
     </div>
 
-    <div class="row top10">
+    <div class="row top10" v-if="showSales">
       <div class="col-md-12">
-        <sales-table />
+        <sales-table :sales="sales" />
       </div>
     </div>
 
-    <div class="row top10">
+    <div class="row top10" v-if="showResults">
       <div class="col-md-12">
-        <sales-result-table />
+        <sales-result-table :sales="results" />
       </div>
     </div>
   </div>
@@ -34,16 +34,55 @@ import SalesResultTable from "../components/SalesResultTable";
 
 export default {
   components: { RangePicker, CostumerPicker, SalesTable, SalesResultTable },
-  methods: {
-    setCostumer(costumer) {
-      this.selectedCostumer = costumer;
-    }
-  },
   data() {
     return {
       rangePicker: null,
-      selectedCostumer: {}
+      selectedCostumer: {},
+      sales: [],
+      results: []
     };
+  },
+  computed: {
+    canFetch() {
+      return (
+        this.selectedCostumer.id > 0 &&
+        this.rangePicker != null &&
+        this.rangePicker.start_day &&
+        this.rangePicker.end_day
+      );
+    },
+    showSales() {
+      return this.sales.length > 0;
+    },
+    showResults() {
+      return this.sales.length > 0;
+    }
+  },
+  methods: {
+    fetchAll() {
+      this.fetchSales();
+      this.fetchResults();
+    },
+    fetchSales() {
+      axios
+        .get(
+          `/api/costumers/${this.selectedCostumer.id}/sales?from_date=${this.rangePicker.start_day}&to_date=${this.rangePicker.end_day}`
+        )
+        .then(response => {
+          this.sales = response.data || [];
+        })
+        .catch(e => console.log(e));
+    },
+    fetchResults() {
+      axios
+        .get(
+          `/api/costumers/${this.selectedCostumer.id}/sales-results?from_date=${this.rangePicker.start_day}&to_date=${this.rangePicker.end_day}`
+        )
+        .then(response => {
+          this.sales = response.data || [];
+        })
+        .catch(e => console.log(e));
+    }
   }
 };
 </script>

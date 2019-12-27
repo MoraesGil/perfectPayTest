@@ -13,12 +13,13 @@
         </thead>
         <tbody>
           <tr v-for="sale in sales">
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{sale.sale_product.name}}</td>
+            <td>{{sale.sale_date}}</td>
+            <td>{{sale.sale_price_final}}</td>
             <td>
               <btn>
-                 Editar <i class="fa fa-edit"></i>
+                Editar
+                <i class="fa fa-edit"></i>
               </btn>
             </td>
           </tr>
@@ -28,5 +29,12 @@
   </div>
 </template>
 <script>
-export default {};
+export default {
+  props: {
+    sales: {
+      type: Array,
+      default: () => []
+    }
+  }
+};
 </script>

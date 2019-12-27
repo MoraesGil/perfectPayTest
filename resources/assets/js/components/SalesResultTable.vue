@@ -11,13 +11,23 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
+          <tr v-for="result in results">
+            <td>{{result.status}}</td>
+            <td>{{result.amount}}</td>
+            <td>{{result.total}}</td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
 </template>
+<script>
+export default {
+  props: {
+    result: {
+      type: Array,
+      default: () => []
+    }
+  },
+};
+</script>
