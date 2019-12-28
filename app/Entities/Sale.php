@@ -13,7 +13,7 @@ class Sale extends Model
         'updated_at'
     ];
 
-    protected $fillable = ['status', 'price', 'amount', 'discount'];
+    protected $fillable = ['product_id','status', 'price', 'amount', 'discount', 'date'];
 
     public function product()
     {

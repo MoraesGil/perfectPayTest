@@ -24,14 +24,15 @@ class SalesRequest extends FormRequest
     public function rules()
     {
         switch ($this->method()) {
+            case 'POST':
             case 'PUT':
             case 'PATCH':
                 return [
-                    'sale_id' => "nullable|exists:sales,id",
                     'product_id' => "required|exists:products,id",
                     'date' => 'required|date',
+                    "status"=> 'nullable|in:0,1,2',
                     'price' => 'required|numeric',
-                    'discount' => 'required|numeric',
+                    'discount' => 'numeric',
                     'amount' => 'required|numeric'
                 ];
 
