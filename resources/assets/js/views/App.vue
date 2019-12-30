@@ -6,7 +6,7 @@
         <range-picker @range="(range) => rangePicker = range" />
       </div>
       <div class="col-md-1 pull-right">
-        <btn @click="fetchAll" class="form-control" :disabled="!canFetch">
+        <btn @click="fetchSales" class="form-control" :disabled="!canFetch">
           <i class="fa fa-search"></i>
         </btn>
       </div>
@@ -38,11 +38,23 @@ export default {
     return {
       rangePicker: null,
       selectedCostumer: {},
-      sales: [],
-      results: []
+      sales: []
     };
   },
   computed: {
+    results() {
+      return this.sales.reduce((data, sale) => {
+        if (!data[sale.sale_status])
+          data[sale.sale_status] = { amount: 0, total: 0 };
+
+        data[sale.sale_status].total =
+          data[sale.sale_status].total + parseFloat(sale.sale_price_final);
+        data[sale.sale_status].amount =
+          data[sale.sale_status].amount + parseInt(sale.sale_amount);
+
+        return data;
+      }, []);
+    },
     canFetch() {
       return (
         this.selectedCostumer.id > 0 &&
@@ -59,24 +71,10 @@ export default {
     }
   },
   methods: {
-    fetchAll() {
-      this.fetchSales();
-      this.fetchResults();
-    },
     fetchSales() {
       axios
         .get(
           `/api/costumers/${this.selectedCostumer.id}/sales?from_date=${this.rangePicker.start_day}&to_date=${this.rangePicker.end_day}`
-        )
-        .then(response => {
-          this.sales = response.data || [];
-        })
-        .catch(e => console.log(e));
-    },
-    fetchResults() {
-      axios
-        .get(
-          `/api/costumers/${this.selectedCostumer.id}/sales-results?from_date=${this.rangePicker.start_day}&to_date=${this.rangePicker.end_day}`
         )
         .then(response => {
           this.sales = response.data || [];

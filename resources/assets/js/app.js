@@ -6,6 +6,17 @@ import locale from "uiv/src/locale/lang/pt-BR";
 
 Vue.use(uiv, { locale });
 
+import VueCurrencyFilter from "vue-currency-filter";
+
+Vue.use(VueCurrencyFilter, {
+    symbol: "R$",
+    thousandsSeparator: ".",
+    fractionCount: 2,
+    fractionSeparator: ",",
+    symbolPosition: "front",
+    symbolSpacing: true
+});
+
 window.axios = require("axios");
 
 window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";

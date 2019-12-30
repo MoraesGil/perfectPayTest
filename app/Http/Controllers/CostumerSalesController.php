@@ -16,17 +16,6 @@ class CostumerSalesController extends Controller
         );
     }
 
-    /**
-     * TO DO
-     * Resource computing result data with collection
-     */
-    public function results(SalesRequest $request, $costumer_id)
-    {
-        return new CostumerSalesCollection(
-            $this->salesBetween($request, $costumer_id)->get()
-        );
-    }
-
     private function salesBetween(SalesRequest $request, $costumer_id)
     {
         $costumer = Costumer::findOrFail($costumer_id);

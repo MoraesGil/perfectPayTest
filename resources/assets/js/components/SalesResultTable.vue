@@ -11,10 +11,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="result in results">
-            <td>{{result.status}}</td>
+          <tr v-for="(result,index) in results" :key="index">
+            <td>{{index | statusName}}</td>
             <td>{{result.amount}}</td>
-            <td>{{result.total}}</td>
+            <td>{{result.total | currency}}</td>
           </tr>
         </tbody>
       </table>
@@ -29,5 +29,26 @@ export default {
       default: () => []
     }
   },
+  filters: {
+    statusName(val) {
+      let result = "";
+      switch (val) {
+        case 0:
+          result = "Vendidos";
+          break;
+        case 1:
+          result = "Cancelados";
+          break;
+        case 2:
+          result = "Devoluções";
+          break;
+
+        default:
+          result = "Status Descconhecido";
+          break;
+      }
+      return result
+    }
+  }
 };
 </script>

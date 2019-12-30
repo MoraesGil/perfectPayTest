@@ -15,7 +15,7 @@
           <tr v-for="sale in sales">
             <td>{{sale.sale_product.name}}</td>
             <td>{{sale.sale_date | dateBr}}</td>
-            <td>{{sale.sale_price_final}}</td>
+            <td>{{2000.56 | currency}}</td>
             <td>
               <btn>
                 Editar
