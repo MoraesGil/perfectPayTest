@@ -1,0 +1,26 @@
+version : '3'
+
+services:
+  api_srv_pp_test:
+    build: .docker/api-srv
+    ports:
+      - "3000:80"
+    volumes:
+      - ./:/var/www/myapp
+    networks:
+      - internal
+
+  mysql_pp_test:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    volumes:
+      - .docker/dbdata:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: perfectpaytest
+      MYSQL_ROOT_PASSWORD: superpassword
+    networks:
+      - internal
+networks:
+  internal:
+    driver: bridge
